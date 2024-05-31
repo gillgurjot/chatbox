@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  chatbox-fe:
+    image: chatbox-fe
+    restart: always
+    ports: 
+      - "3000:3000"
+    networks:
+      - chatapp
+    depends_on:
+      - chatbox-be
+  chatbox-be:
+    image: chatbox-be
+    ports:
+      - "5000:5000"
+    networks:
+      - chatapp
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - chatapp
+    volumes:
+      - mongo-data:/data/db
+networks:
+  chatapp:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
